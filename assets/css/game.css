@@ -16,24 +16,57 @@
     color: #ffffff !important;
 }
 
-.keyboard-key.correct {
-    background: #1e8e3e !important;
-    border-color: #1e8e3e !important;
-    color: #ffffff !important;
-}
-
-.keyboard-key.present {
-    background: #f9ab00 !important;
-    border-color: #f9ab00 !important;
-    color: #121212 !important;
-}
-
-.keyboard-key.absent {
-    background: #5a5a5a !important;
-    border-color: #5a5a5a !important;
-    color: #ffffff !important;
-}
-
 .action-btn:hover, .copy-btn:hover {
     filter: brightness(1.1);
+}
+
+.mobile-input-container {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    margin: 16px 0;
+    padding: 16px;
+    border-radius: 24px;
+}
+
+.mobile-word-input {
+    padding: 16px 20px;
+    font-size: 1.2rem;
+    font-family: 'Inter', monospace;
+    border: 2px solid;
+    border-radius: 48px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    outline: none;
+    font-weight: 600;
+}
+
+.mobile-submit-btn {
+    background: #6750a4;
+    border: none;
+    border-radius: 48px;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.1s;
+    color: white;
+}
+
+.mobile-submit-btn:active {
+    transform: scale(0.97);
+}
+
+@media (max-width: 768px) {
+    .mobile-input-container {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-input-container {
+        display: none !important;
+    }
 }

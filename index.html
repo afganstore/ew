@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/themes.css">
-    <link rel="stylesheet" href="assets/css/mobile.css">
     <link rel="stylesheet" href="assets/css/game.css">
 </head>
 <body>
@@ -43,18 +42,13 @@
             <div id="board" class="board"></div>
             <div id="message" class="message-area"></div>
             
-            <div id="mobileKeyboard" class="mobile-keyboard" style="display: none;">
-                <div class="keyboard-row" data-row="0"></div>
-                <div class="keyboard-row" data-row="1"></div>
-                <div class="keyboard-row" data-row="2"></div>
-                <div class="keyboard-actions">
-                    <button class="keyboard-action-btn" data-action="backspace">⌫</button>
-                    <button class="keyboard-action-btn" data-action="enter">↵ Enter</button>
-                </div>
+            <!-- Поле ввода для телефона (вызывает системную клавиатуру) -->
+            <div class="mobile-input-container">
+                <input type="text" id="mobileWordInput" class="mobile-word-input" maxlength="20" placeholder="Введите слово" autocomplete="off" inputmode="text">
+                <button id="mobileSubmitBtn" class="mobile-submit-btn">↵ Проверить</button>
             </div>
             
             <div class="action-group">
-                <button id="showKeyboardBtn" class="action-btn mobile-only" style="display: none;">⌨️ Открыть клавиатуру</button>
                 <button id="backToCreateBtn" class="action-btn">📨 Создать новое слово</button>
             </div>
         </div>

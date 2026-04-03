@@ -10,7 +10,6 @@
         wordLength: CONFIG.game.wordLength
     };
     
-    let keyboardStatus = {};
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     document.getElementById('appTitle').textContent = CONFIG.instanceName;
@@ -28,8 +27,8 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const backToCreateBtn = document.getElementById('backToCreateBtn');
     const themeToggle = document.getElementById('themeToggle');
-    const mobileKeyboard = document.getElementById('mobileKeyboard');
-    const showKeyboardBtn = document.getElementById('showKeyboardBtn');
+    const mobileWordInput = document.getElementById('mobileWordInput');
+    const mobileSubmitBtn = document.getElementById('mobileSubmitBtn');
     
     secretWordInput.maxLength = CONFIG.game.wordLength;
     secretWordInput.placeholder = `Введите ${CONFIG.game.wordLength} букв`;
@@ -75,19 +74,6 @@
     setTheme(savedTheme);
     themeToggle.addEventListener('click', toggleTheme);
     
-    function updateKeyboardColors() {
-        if (!isMobile) return;
-        const keys = document.querySelectorAll('.keyboard-key');
-        keys.forEach(key => {
-            const letter = key.textContent;
-            if (keyboardStatus[letter]) {
-                key.classList.add(keyboardStatus[letter]);
-            } else {
-                key.classList.remove('correct', 'present', 'absent');
-            }
-        });
-    }
-    
     function renderBoard() {
         boardDiv.innerHTML = '';
         const state = gameState;
@@ -113,19 +99,16 @@
                     const guess = state.attempts[row];
                     const stateType = WordParser.getLetterState(secret, guess, col);
                     tile.classList.add(stateType);
-                    
-                    if (isMobile) {
-                        if (stateType === 'correct') keyboardStatus[letter] = 'correct';
-                        else if (stateType === 'present' && keyboardStatus[letter] !== 'correct') keyboardStatus[letter] = 'present';
-                        else if (stateType === 'absent' && !keyboardStatus[letter]) keyboardStatus[letter] = 'absent';
-                    }
                 }
                 rowDiv.appendChild(tile);
             }
             boardDiv.appendChild(rowDiv);
         }
-        if (isMobile) {
-            updateKeyboardColors();
+        
+        if (isMobile && mobileWordInput) {
+            mobileWordInput.maxLength = state.wordLength;
+            mobileWordInput.placeholder = `Введите ${state.wordLength} букв`;
+            mobileWordInput.value = state.currentAttempt;
         }
     }
     
@@ -159,10 +142,11 @@
         }
     }
     
-    function removeLetter() {
+    function setAttemptFromMobile(value) {
         if (gameState.gameOver) return;
-        if (gameState.currentAttempt.length > 0) {
-            gameState.currentAttempt = gameState.currentAttempt.slice(0, -1);
+        const upperValue = value.toUpperCase().replace(/[^A-ZА-Я]/g, '');
+        if (upperValue.length <= gameState.wordLength) {
+            gameState.currentAttempt = upperValue;
             renderBoard();
         }
     }
@@ -185,6 +169,7 @@
             state.gameOver = true;
             renderBoard();
             showMessage(`🎉 ПОБЕДА! Слово отгадано: ${state.secretWord} 🎉`, false);
+            if (mobileWordInput) mobileWordInput.value = '';
             return;
         }
         
@@ -192,10 +177,13 @@
             state.gameOver = true;
             renderBoard();
             showMessage(`❌ Попытки кончились. Загаданное слово: ${state.secretWord}`, true);
+            if (mobileWordInput) mobileWordInput.value = '';
             return;
         }
         renderBoard();
         showMessage(`Осталось попыток: ${state.maxAttempts - state.attempts.length}`);
+        if (mobileWordInput) mobileWordInput.value = '';
+        if (mobileWordInput) mobileWordInput.focus();
     }
     
     function initGameWithWord(word) {
@@ -212,9 +200,12 @@
             maxAttempts: CONFIG.game.maxAttempts,
             wordLength: CONFIG.game.wordLength
         };
-        keyboardStatus = {};
         renderBoard();
         showMessage(`Игра началась! Угадай слово из ${CONFIG.game.wordLength} букв.`);
+        if (isMobile && mobileWordInput) {
+            mobileWordInput.value = '';
+            mobileWordInput.focus();
+        }
         return true;
     }
     
@@ -235,10 +226,6 @@
                 if (initGameWithWord(decoded)) {
                     createSection.style.display = 'none';
                     gameZone.style.display = 'block';
-                    if (isMobile && mobileKeyboard) {
-                        mobileKeyboard.style.display = 'block';
-                        buildMobileKeyboard();
-                    }
                     return true;
                 } else {
                     alert("Не удалось расшифровать слово. Загадайте новое.");
@@ -257,66 +244,6 @@
             gameZone.style.display = 'none';
             return false;
         }
-    }
-    
-    function buildMobileKeyboard() {
-        const rows = [
-            ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ'],
-            ['Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Э'],
-            ['Я','Ч','С','М','И','Т','Ь','Б','Ю']
-        ];
-        
-        for (let i = 0; i < rows.length; i++) {
-            const rowDiv = document.querySelector(`.keyboard-row[data-row="${i}"]`);
-            if (rowDiv) {
-                rowDiv.innerHTML = '';
-                rows[i].forEach(letter => {
-                    const key = document.createElement('button');
-                    key.textContent = letter;
-                    key.className = 'keyboard-key';
-                    key.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        addLetter(letter);
-                        if (mobileKeyboard) {
-                            mobileKeyboard.classList.add('active');
-                        }
-                    });
-                    rowDiv.appendChild(key);
-                });
-            }
-        }
-        
-        document.querySelectorAll('.keyboard-action-btn').forEach(btn => {
-            btn.removeEventListener('click', handleActionClick);
-            btn.addEventListener('click', handleActionClick);
-        });
-    }
-    
-    function handleActionClick(e) {
-        const action = e.currentTarget.getAttribute('data-action');
-        if (action === 'backspace') {
-            removeLetter();
-        } else if (action === 'enter') {
-            submitAttempt();
-        }
-        if (mobileKeyboard) {
-            mobileKeyboard.classList.add('active');
-        }
-    }
-    
-    if (isMobile && showKeyboardBtn) {
-        showKeyboardBtn.addEventListener('click', () => {
-            if (mobileKeyboard) {
-                if (mobileKeyboard.style.display === 'none' || mobileKeyboard.style.display === '') {
-                    mobileKeyboard.style.display = 'block';
-                    buildMobileKeyboard();
-                    showKeyboardBtn.textContent = '⌨️ Скрыть клавиатуру';
-                } else {
-                    mobileKeyboard.style.display = 'none';
-                    showKeyboardBtn.textContent = '⌨️ Открыть клавиатуру';
-                }
-            }
-        });
     }
     
     generateLinkBtn.addEventListener('click', () => {
@@ -347,13 +274,42 @@
         createSection.style.display = 'block';
         gameZone.style.display = 'none';
         gameState.gameOver = true;
-        if (mobileKeyboard) {
-            mobileKeyboard.style.display = 'none';
-        }
     });
+    
+    if (isMobile && mobileWordInput) {
+        mobileWordInput.addEventListener('input', (e) => {
+            const rawValue = e.target.value;
+            const filtered = rawValue.toUpperCase().replace(/[^A-ZА-Я]/g, '');
+            if (filtered.length > gameState.wordLength) {
+                mobileWordInput.value = filtered.slice(0, gameState.wordLength);
+            } else {
+                mobileWordInput.value = filtered;
+            }
+            setAttemptFromMobile(mobileWordInput.value);
+        });
+        
+        mobileSubmitBtn.addEventListener('click', () => {
+            submitAttempt();
+            if (mobileWordInput) {
+                mobileWordInput.value = '';
+                mobileWordInput.focus();
+            }
+        });
+        
+        mobileWordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitAttempt();
+                mobileWordInput.value = '';
+                mobileWordInput.focus();
+            }
+        });
+    }
     
     window.addEventListener('keydown', (e) => {
         if (gameZone.style.display !== 'block') return;
+        if (isMobile) return;
+        
         if (gameState.gameOver) {
             if (e.key === 'Enter') {
                 showMessage(`Игра завершена. Слово: ${gameState.secretWord}`, true);
@@ -369,25 +325,24 @@
         }
         else if (key === 'Backspace') {
             e.preventDefault();
-            removeLetter();
+            if (gameState.currentAttempt.length > 0) {
+                gameState.currentAttempt = gameState.currentAttempt.slice(0, -1);
+                renderBoard();
+            }
         }
         else if (/^[A-Za-zА-Яа-я]$/.test(key)) {
             e.preventDefault();
-            addLetter(key.toUpperCase());
+            const upperKey = key.toUpperCase();
+            if (gameState.currentAttempt.length < gameState.wordLength) {
+                gameState.currentAttempt += upperKey;
+                renderBoard();
+            }
         }
     });
     
     secretWordInput.addEventListener('keydown', (e) => {
         e.stopPropagation();
     });
-    
-    if (isMobile) {
-        document.querySelectorAll('.tile').forEach(tile => {
-            tile.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-            });
-        });
-    }
     
     startGameFromUrl();
 })();
