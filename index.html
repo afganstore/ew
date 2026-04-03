@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>EshaWords</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/themes.css">
+    <link rel="stylesheet" href="assets/css/game.css">
+</head>
+<body>
+<div class="material-card">
+    <div class="content">
+        <div class="header-row">
+            <h1 id="appTitle">EshaWords</h1>
+            <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">🌙</button>
+        </div>
+
+        <div id="createSection">
+            <div class="create-card elevation-1">
+                <div class="input-label">
+                    <span>🎯</span> Загадай слово (<span id="wordLengthLabel">5</span> букв)
+                </div>
+                <div class="word-input-group">
+                    <input type="text" id="secretWordInput" class="md-input" maxlength="20" placeholder="НАПРИМЕР: МИРОВ" autocomplete="off">
+                    <button id="generateLinkBtn" class="md-button">🔗 Создать ссылку</button>
+                </div>
+                <div id="linkContainer" style="display: none;" class="share-link-card">
+                    <span class="share-link-text" id="gameLinkText"></span>
+                    <button id="copyLinkBtn" class="copy-btn">Копировать</button>
+                </div>
+            </div>
+            <div class="message-area info-message">
+                💡 Загадайте слово → получите ссылку → отправьте другу.
+            </div>
+        </div>
+
+        <div id="gameZone" style="display: none;">
+            <div id="board" class="board"></div>
+            <div id="message" class="message-area"></div>
+            <div class="action-group">
+                <button id="backToCreateBtn" class="action-btn">📨 Создать новое слово</button>
+            </div>
+        </div>
+        <footer>
+            🟩 буква на месте &nbsp;&nbsp;🟨 есть в слове &nbsp;&nbsp;⬜ нет в слове<br>
+            Если не отгадал за <span id="attemptsLabel">6</span> попыток — покажем загаданное слово.
+        </footer>
+    </div>
+</div>
+
+<script src="assets/include/config.js"></script>
+<script src="assets/js/parseWord.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

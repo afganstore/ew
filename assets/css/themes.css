@@ -1,0 +1,206 @@
+body[data-theme="dark"] {
+    background: #121212;
+}
+
+body[data-theme="dark"] .material-card {
+    background: #1e1e1e;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="dark"] h1 {
+    background: linear-gradient(135deg, #e0e0e0, #b0b0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+body[data-theme="dark"] .create-card {
+    background: #2c2c2c;
+    border-color: #3a3a3a;
+}
+
+body[data-theme="dark"] .input-label {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .md-input {
+    background: #1a1a1a;
+    border-color: #4a4a4a;
+    color: #ffffff;
+}
+
+body[data-theme="dark"] .md-input:focus {
+    border-color: #bb86fc;
+    box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.25);
+}
+
+body[data-theme="dark"] .md-input::placeholder {
+    color: #6a6a6a;
+}
+
+body[data-theme="dark"] .md-button {
+    background: #bb86fc;
+    color: #121212;
+}
+
+body[data-theme="dark"] .md-button:hover {
+    background: #a06ee0;
+}
+
+body[data-theme="dark"] .share-link-card {
+    background: #252525;
+}
+
+body[data-theme="dark"] .share-link-text {
+    color: #bbbbbb;
+}
+
+body[data-theme="dark"] .copy-btn {
+    background: #3a3a3a;
+    border-color: #5a5a5a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .message-area {
+    background: #2a2a2a;
+    color: #d0d0d0;
+}
+
+body[data-theme="dark"] .action-btn {
+    background: #3a3a4a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] footer {
+    color: #8a8a9a;
+    border-top-color: #333333;
+}
+
+body[data-theme="dark"] .tile {
+    background: #2c2c2c;
+    border-color: #4a4a4a;
+    color: #ffffff;
+}
+
+body[data-theme="dark"] .theme-toggle {
+    color: #e0e0e0;
+    background: #2c2c2c;
+}
+
+body[data-theme="dark"] .theme-toggle:hover {
+    background: #3a3a3a;
+}
+
+body[data-theme="light"] {
+    background: #f5f5f7;
+}
+
+body[data-theme="light"] .material-card {
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+body[data-theme="light"] h1 {
+    background: linear-gradient(135deg, #1e1e2f, #3a3b5c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+body[data-theme="light"] .create-card {
+    background: #fefefe;
+    border-color: #e9e9ef;
+}
+
+body[data-theme="light"] .input-label {
+    color: #1c1b1f;
+}
+
+body[data-theme="light"] .md-input {
+    background: #ffffff;
+    border-color: #dadce0;
+    color: #202124;
+}
+
+body[data-theme="light"] .md-input:focus {
+    border-color: #6750a4;
+    box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.2);
+}
+
+body[data-theme="light"] .md-input::placeholder {
+    color: #9aa0a6;
+}
+
+body[data-theme="light"] .md-button {
+    background: #6750a4;
+    color: white;
+}
+
+body[data-theme="light"] .md-button:hover {
+    background: #4f378a;
+}
+
+body[data-theme="light"] .share-link-card {
+    background: #f3f2f7;
+}
+
+body[data-theme="light"] .share-link-text {
+    color: #1e1e2f;
+}
+
+body[data-theme="light"] .copy-btn {
+    background: #ffffff;
+    border-color: #cdcbe0;
+    color: #1e1e2f;
+}
+
+body[data-theme="light"] .message-area {
+    background: #f1f3f4;
+    color: #1c1b1f;
+}
+
+body[data-theme="light"] .action-btn {
+    background: #e8eaf6;
+    color: #1e1e2f;
+}
+
+body[data-theme="light"] footer {
+    color: #7b7e8c;
+    border-top-color: #ececf0;
+}
+
+body[data-theme="light"] .tile {
+    background: #ffffff;
+    border-color: #dadce0;
+    color: #202124;
+}
+
+body[data-theme="light"] .theme-toggle {
+    color: #1e1e2f;
+    background: #e8eaf6;
+}
+
+body[data-theme="light"] .theme-toggle:hover {
+    background: #dadce0;
+}
+
+body[data-theme="light"] .tile.correct,
+body[data-theme="dark"] .tile.correct {
+    background: #1e8e3e !important;
+    border-color: #1e8e3e !important;
+    color: white !important;
+}
+
+body[data-theme="light"] .tile.present,
+body[data-theme="dark"] .tile.present {
+    background: #f9ab00 !important;
+    border-color: #f9ab00 !important;
+    color: #121212 !important;
+}
+
+body[data-theme="light"] .tile.absent,
+body[data-theme="dark"] .tile.absent {
+    background: #5a5a5a !important;
+    border-color: #5a5a5a !important;
+    color: #e0e0e0 !important;
+}

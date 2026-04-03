@@ -1,0 +1,26 @@
+.tile.correct {
+    background: #1e8e3e !important;
+    border-color: #1e8e3e !important;
+    color: white !important;
+    transform: scale(0.96);
+}
+
+.tile.present {
+    background: #f9ab00 !important;
+    border-color: #f9ab00 !important;
+    color: #121212 !important;
+}
+
+.tile.absent {
+    background: #5a5a5a !important;
+    border-color: #5a5a5a !important;
+    color: #e0e0e0 !important;
+}
+
+.action-btn:hover {
+    filter: brightness(1.1);
+}
+
+.copy-btn:hover {
+    filter: brightness(1.1);
+}
