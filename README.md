@@ -6,8 +6,6 @@
 
 **EshaWords** — это веб-игра в стиле Wordle, где вы можете загадать слово друзьям.
 
-![EshaWords Preview](https://via.placeholder.com/800x400?text=EshaWords+Screenshot)
-
 ---
 
 ## 🕹️ Демонстрация
