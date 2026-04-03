@@ -30,16 +30,20 @@
     flex-shrink: 0;
 }
 
-.tile.correct {
-    transform: scale(0.96);
+@media (max-width: 700px) {
+    .tile {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 1.3rem !important;
+    }
 }
 
-.md-button.secondary {
-    box-shadow: none;
-}
-
-.create-card {
-    border: 1px solid;
+@media (max-width: 500px) {
+    .tile {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 1.1rem !important;
+    }
 }
 
 .md-input::placeholder {

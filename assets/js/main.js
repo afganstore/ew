@@ -10,6 +10,9 @@
         wordLength: CONFIG.game.wordLength
     };
     
+    let keyboardStatus = {};
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     document.getElementById('appTitle').textContent = CONFIG.instanceName;
     document.getElementById('wordLengthLabel').textContent = CONFIG.game.wordLength;
     document.getElementById('attemptsLabel').textContent = CONFIG.game.maxAttempts;
@@ -25,6 +28,8 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const backToCreateBtn = document.getElementById('backToCreateBtn');
     const themeToggle = document.getElementById('themeToggle');
+    const mobileKeyboard = document.getElementById('mobileKeyboard');
+    const showKeyboardBtn = document.getElementById('showKeyboardBtn');
     
     secretWordInput.maxLength = CONFIG.game.wordLength;
     secretWordInput.placeholder = `Введите ${CONFIG.game.wordLength} букв`;
@@ -70,6 +75,19 @@
     setTheme(savedTheme);
     themeToggle.addEventListener('click', toggleTheme);
     
+    function updateKeyboardColors() {
+        if (!isMobile) return;
+        const keys = document.querySelectorAll('.keyboard-key');
+        keys.forEach(key => {
+            const letter = key.textContent;
+            if (keyboardStatus[letter]) {
+                key.classList.add(keyboardStatus[letter]);
+            } else {
+                key.classList.remove('correct', 'present', 'absent');
+            }
+        });
+    }
+    
     function renderBoard() {
         boardDiv.innerHTML = '';
         const state = gameState;
@@ -95,10 +113,19 @@
                     const guess = state.attempts[row];
                     const stateType = WordParser.getLetterState(secret, guess, col);
                     tile.classList.add(stateType);
+                    
+                    if (isMobile) {
+                        if (stateType === 'correct') keyboardStatus[letter] = 'correct';
+                        else if (stateType === 'present' && keyboardStatus[letter] !== 'correct') keyboardStatus[letter] = 'present';
+                        else if (stateType === 'absent' && !keyboardStatus[letter]) keyboardStatus[letter] = 'absent';
+                    }
                 }
                 rowDiv.appendChild(tile);
             }
             boardDiv.appendChild(rowDiv);
+        }
+        if (isMobile) {
+            updateKeyboardColors();
         }
     }
     
@@ -122,6 +149,22 @@
                 }
             }
         }, 2800);
+    }
+    
+    function addLetter(letter) {
+        if (gameState.gameOver) return;
+        if (gameState.currentAttempt.length < gameState.wordLength) {
+            gameState.currentAttempt += letter;
+            renderBoard();
+        }
+    }
+    
+    function removeLetter() {
+        if (gameState.gameOver) return;
+        if (gameState.currentAttempt.length > 0) {
+            gameState.currentAttempt = gameState.currentAttempt.slice(0, -1);
+            renderBoard();
+        }
     }
     
     function submitAttempt() {
@@ -169,6 +212,7 @@
             maxAttempts: CONFIG.game.maxAttempts,
             wordLength: CONFIG.game.wordLength
         };
+        keyboardStatus = {};
         renderBoard();
         showMessage(`Игра началась! Угадай слово из ${CONFIG.game.wordLength} букв.`);
         return true;
@@ -191,6 +235,10 @@
                 if (initGameWithWord(decoded)) {
                     createSection.style.display = 'none';
                     gameZone.style.display = 'block';
+                    if (isMobile && mobileKeyboard) {
+                        mobileKeyboard.style.display = 'block';
+                        buildMobileKeyboard();
+                    }
                     return true;
                 } else {
                     alert("Не удалось расшифровать слово. Загадайте новое.");
@@ -209,6 +257,66 @@
             gameZone.style.display = 'none';
             return false;
         }
+    }
+    
+    function buildMobileKeyboard() {
+        const rows = [
+            ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ'],
+            ['Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Э'],
+            ['Я','Ч','С','М','И','Т','Ь','Б','Ю']
+        ];
+        
+        for (let i = 0; i < rows.length; i++) {
+            const rowDiv = document.querySelector(`.keyboard-row[data-row="${i}"]`);
+            if (rowDiv) {
+                rowDiv.innerHTML = '';
+                rows[i].forEach(letter => {
+                    const key = document.createElement('button');
+                    key.textContent = letter;
+                    key.className = 'keyboard-key';
+                    key.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        addLetter(letter);
+                        if (mobileKeyboard) {
+                            mobileKeyboard.classList.add('active');
+                        }
+                    });
+                    rowDiv.appendChild(key);
+                });
+            }
+        }
+        
+        document.querySelectorAll('.keyboard-action-btn').forEach(btn => {
+            btn.removeEventListener('click', handleActionClick);
+            btn.addEventListener('click', handleActionClick);
+        });
+    }
+    
+    function handleActionClick(e) {
+        const action = e.currentTarget.getAttribute('data-action');
+        if (action === 'backspace') {
+            removeLetter();
+        } else if (action === 'enter') {
+            submitAttempt();
+        }
+        if (mobileKeyboard) {
+            mobileKeyboard.classList.add('active');
+        }
+    }
+    
+    if (isMobile && showKeyboardBtn) {
+        showKeyboardBtn.addEventListener('click', () => {
+            if (mobileKeyboard) {
+                if (mobileKeyboard.style.display === 'none' || mobileKeyboard.style.display === '') {
+                    mobileKeyboard.style.display = 'block';
+                    buildMobileKeyboard();
+                    showKeyboardBtn.textContent = '⌨️ Скрыть клавиатуру';
+                } else {
+                    mobileKeyboard.style.display = 'none';
+                    showKeyboardBtn.textContent = '⌨️ Открыть клавиатуру';
+                }
+            }
+        });
     }
     
     generateLinkBtn.addEventListener('click', () => {
@@ -239,6 +347,9 @@
         createSection.style.display = 'block';
         gameZone.style.display = 'none';
         gameState.gameOver = true;
+        if (mobileKeyboard) {
+            mobileKeyboard.style.display = 'none';
+        }
     });
     
     window.addEventListener('keydown', (e) => {
@@ -258,24 +369,25 @@
         }
         else if (key === 'Backspace') {
             e.preventDefault();
-            if (gameState.currentAttempt.length > 0) {
-                gameState.currentAttempt = gameState.currentAttempt.slice(0, -1);
-                renderBoard();
-            }
+            removeLetter();
         }
         else if (/^[A-Za-zА-Яа-я]$/.test(key)) {
             e.preventDefault();
-            const upperKey = key.toUpperCase();
-            if (gameState.currentAttempt.length < gameState.wordLength) {
-                gameState.currentAttempt += upperKey;
-                renderBoard();
-            }
+            addLetter(key.toUpperCase());
         }
     });
     
     secretWordInput.addEventListener('keydown', (e) => {
         e.stopPropagation();
     });
+    
+    if (isMobile) {
+        document.querySelectorAll('.tile').forEach(tile => {
+            tile.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+            });
+        });
+    }
     
     startGameFromUrl();
 })();

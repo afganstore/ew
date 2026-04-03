@@ -2,13 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>EshaWords</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/themes.css">
+    <link rel="stylesheet" href="assets/css/mobile.css">
     <link rel="stylesheet" href="assets/css/game.css">
 </head>
 <body>
@@ -25,7 +26,7 @@
                     <span>🎯</span> Загадай слово (<span id="wordLengthLabel">5</span> букв)
                 </div>
                 <div class="word-input-group">
-                    <input type="text" id="secretWordInput" class="md-input" maxlength="20" placeholder="НАПРИМЕР: МИРОВ" autocomplete="off">
+                    <input type="text" id="secretWordInput" class="md-input" maxlength="20" placeholder="НАПРИМЕР: МИРОВ" autocomplete="off" inputmode="text">
                     <button id="generateLinkBtn" class="md-button">🔗 Создать ссылку</button>
                 </div>
                 <div id="linkContainer" style="display: none;" class="share-link-card">
@@ -41,7 +42,19 @@
         <div id="gameZone" style="display: none;">
             <div id="board" class="board"></div>
             <div id="message" class="message-area"></div>
+            
+            <div id="mobileKeyboard" class="mobile-keyboard" style="display: none;">
+                <div class="keyboard-row" data-row="0"></div>
+                <div class="keyboard-row" data-row="1"></div>
+                <div class="keyboard-row" data-row="2"></div>
+                <div class="keyboard-actions">
+                    <button class="keyboard-action-btn" data-action="backspace">⌫</button>
+                    <button class="keyboard-action-btn" data-action="enter">↵ Enter</button>
+                </div>
+            </div>
+            
             <div class="action-group">
+                <button id="showKeyboardBtn" class="action-btn mobile-only" style="display: none;">⌨️ Открыть клавиатуру</button>
                 <button id="backToCreateBtn" class="action-btn">📨 Создать новое слово</button>
             </div>
         </div>

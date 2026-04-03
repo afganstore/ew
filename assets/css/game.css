@@ -1,8 +1,7 @@
 .tile.correct {
     background: #1e8e3e !important;
     border-color: #1e8e3e !important;
-    color: white !important;
-    transform: scale(0.96);
+    color: #ffffff !important;
 }
 
 .tile.present {
@@ -14,13 +13,27 @@
 .tile.absent {
     background: #5a5a5a !important;
     border-color: #5a5a5a !important;
-    color: #e0e0e0 !important;
+    color: #ffffff !important;
 }
 
-.action-btn:hover {
-    filter: brightness(1.1);
+.keyboard-key.correct {
+    background: #1e8e3e !important;
+    border-color: #1e8e3e !important;
+    color: #ffffff !important;
 }
 
-.copy-btn:hover {
+.keyboard-key.present {
+    background: #f9ab00 !important;
+    border-color: #f9ab00 !important;
+    color: #121212 !important;
+}
+
+.keyboard-key.absent {
+    background: #5a5a5a !important;
+    border-color: #5a5a5a !important;
+    color: #ffffff !important;
+}
+
+.action-btn:hover, .copy-btn:hover {
     filter: brightness(1.1);
 }

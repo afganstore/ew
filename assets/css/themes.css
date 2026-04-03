@@ -91,6 +91,20 @@ body[data-theme="dark"] .theme-toggle:hover {
     background: #3a3a3a;
 }
 
+body[data-theme="dark"] .keyboard-key {
+    background: #3a3a4a;
+    color: white;
+}
+
+body[data-theme="dark"] .keyboard-key:active {
+    background: #5a5a6a;
+}
+
+body[data-theme="dark"] .keyboard-action-btn {
+    background: #bb86fc;
+    color: #121212;
+}
+
 body[data-theme="light"] {
     background: #f5f5f7;
 }
@@ -184,23 +198,17 @@ body[data-theme="light"] .theme-toggle:hover {
     background: #dadce0;
 }
 
-body[data-theme="light"] .tile.correct,
-body[data-theme="dark"] .tile.correct {
-    background: #1e8e3e !important;
-    border-color: #1e8e3e !important;
-    color: white !important;
+body[data-theme="light"] .keyboard-key {
+    background: #e8eaf6;
+    color: #1e1e2f;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-body[data-theme="light"] .tile.present,
-body[data-theme="dark"] .tile.present {
-    background: #f9ab00 !important;
-    border-color: #f9ab00 !important;
-    color: #121212 !important;
+body[data-theme="light"] .keyboard-key:active {
+    background: #d0d0e0;
 }
 
-body[data-theme="light"] .tile.absent,
-body[data-theme="dark"] .tile.absent {
-    background: #5a5a5a !important;
-    border-color: #5a5a5a !important;
-    color: #e0e0e0 !important;
+body[data-theme="light"] .keyboard-action-btn {
+    background: #6750a4;
+    color: white;
 }

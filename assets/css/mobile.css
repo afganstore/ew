@@ -1,0 +1,119 @@
+.mobile-keyboard {
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 16px;
+    margin: 16px 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.keyboard-key {
+    background: #3a3a4a;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Inter', monospace;
+    cursor: pointer;
+    transition: all 0.05s linear;
+    text-transform: uppercase;
+    min-width: 44px;
+    flex: 1;
+    max-width: 60px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.keyboard-key:active {
+    transform: scale(0.94);
+    background: #5a5a6a;
+}
+
+.keyboard-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    justify-content: center;
+}
+
+.keyboard-action-btn {
+    background: #6750a4;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.1s;
+    color: white;
+    flex: 1;
+}
+
+.keyboard-action-btn:active {
+    transform: scale(0.96);
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: inline-flex !important;
+    }
+    
+    .keyboard-key {
+        padding: 12px 0;
+        font-size: 1rem;
+        min-width: 38px;
+        max-width: 50px;
+    }
+    
+    .keyboard-action-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .mobile-keyboard {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .keyboard-key {
+        padding: 10px 0;
+        font-size: 0.9rem;
+        min-width: 32px;
+        max-width: 45px;
+    }
+    
+    .keyboard-row {
+        gap: 4px;
+    }
+    
+    .keyboard-action-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .keyboard-key, .keyboard-action-btn, .action-btn, .md-button, .copy-btn {
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+}
